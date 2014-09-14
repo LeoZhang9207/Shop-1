@@ -3,24 +3,55 @@ package com.hitpoint.shop.model;
 public class SystemContext {
 	private static ThreadLocal<Integer> pageSize = new ThreadLocal<Integer>();
 	private static ThreadLocal<Integer> pageIndex = new ThreadLocal<Integer>();
-	private static ThreadLocal<Integer> pageOfffset = new ThreadLocal<Integer>();
-	public static ThreadLocal<Integer> getPageSize() {
-		return pageSize;
+	private static ThreadLocal<Integer> pageOffset = new ThreadLocal<Integer>();
+	private static ThreadLocal<String> order = new ThreadLocal<String>();
+	private static ThreadLocal<String> sort = new ThreadLocal<String>();
+	
+	public static String getOrder() {
+		return order.get();
 	}
-	public static void setPageSize(ThreadLocal<Integer> pageSize) {
-		SystemContext.pageSize = pageSize;
+	public static void setOrder(String _order) {
+		order.set(_order);
 	}
-	public static ThreadLocal<Integer> getPageIndex() {
-		return pageIndex;
+	public static void removeOrder(){
+		order.remove();
 	}
-	public static void setPageIndex(ThreadLocal<Integer> pageIndex) {
-		SystemContext.pageIndex = pageIndex;
+	public static String getSort() {
+		return sort.get();
 	}
-	public static ThreadLocal<Integer> getPageOfffset() {
-		return pageOfffset;
+	public static void setSort(String _sort) {
+		sort.set(_sort);
 	}
-	public static void setPageOfffset(ThreadLocal<Integer> pageOfffset) {
-		SystemContext.pageOfffset = pageOfffset;
+	public static void removeSort(){
+		sort.remove();
 	}
 	
+	public static int getPageOffSet(){
+		return pageOffset.get();
+	}
+	public static void setPageOffset(int _pageOffset){
+		pageOffset.set(_pageOffset);
+	}
+	public static void removePageOffset(){
+		pageOffset.remove();
+	}
+	
+	public static int getPageSize(){
+		return pageSize.get();
+	}
+	public static void setPageSize(int _pagesize){
+		pageSize.set(_pagesize);
+	}
+	public static void removePageSize(){
+		pageSize.remove();
+	}
+	public static int getPageIndex(){
+		return pageIndex.get();
+	}
+	public static void setPageIndex(int _pageIndex){
+		pageIndex.set(_pageIndex);
+	}
+	public void removePageIndex(){
+		pageIndex.remove();
+	}
 }

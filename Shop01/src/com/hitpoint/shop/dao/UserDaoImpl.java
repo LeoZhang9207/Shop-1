@@ -1,61 +1,115 @@
 package com.hitpoint.shop.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.hitpoint.shop.model.Address;
+import org.apache.ibatis.session.SqlSession;
+
+import com.hitpoint.shop.model.Pager;
+import com.hitpoint.shop.model.ShopException;
+import com.hitpoint.shop.model.SystemContext;
 import com.hitpoint.shop.model.User;
-import com.hitpoint.shop.util.DBUtil;
+import com.hitpoint.shop.util.MybatisUtil;
 
-public class UserDaoImpl implements IUserDao {
+public class UserDaoImpl extends BaseDao<User> implements IUserDao {
 
 	@Override
 	public User load(int id) {
-		Connection conn = null;
-		PreparedStatement stmt= null;
-		ResultSet rs= null;
-		List<Address> addresses= new ArrayList<Address>();
-		Address address = null;
+		/*SqlSession session = null;
 		User u = null;
-		try {
-			conn = DBUtil.getConnection();
-//select t1.*,t2.* from t_user t1 left join t_address t2 on (t1.id=t2.user_id) where t1.id = ?
-			String sql = "select * from t_user where id=?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, id);
-			rs =stmt.executeQuery();
-			while(rs.next()){
-				u = new User();
-				u.setId(rs.getInt("id"));
-				u.setNickname(rs.getString("nickname"));
-				u.setPassword(rs.getString("password"));
-				u.setType(rs.getInt("type"));
-				u.setUsername(rs.getString("username"));
-			}
-			sql = "select * from t_address where user_id = ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, id);
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				address  = new Address();
-				address.setId(rs.getInt("id"));
-				address.setName(rs.getString("name"));
-				address.setPhone(rs.getString("phone"));
-				address.setPostcode(rs.getString("postcode"));
-				addresses.add(address);
-			}
-			u.setAddress(addresses);
-		} catch (Exception e) {
+		try{
+			session = MybatisUtil.createSession();
+			u = (User)session.selectOne(User.class.getName()+".load", id);
+		} catch(Exception e){
 			e.printStackTrace();
-		} finally{
-			DBUtil.release(rs, stmt, conn);
+		}finally{
+			MybatisUtil.closeSession(session);
+		}
+		return u;*/
+		return super.load(User.class, id);
+	}
+	
+	@Override
+	public User login(String username, String password) {
+		User u = this.loadByUsername(username);
+		if(u==null) throw new ShopException("用户名不存在");
+		if(!password.equals(u.getPassword())) throw new ShopException("用户名密码不正确！");
+		return u;
+	}
+
+	@Override
+	public void add(User u) {
+		User tu = this.loadByUsername(u.getUsername());
+		if(tu!=null) throw new ShopException("要添加的用户已存在！");
+		super.add(u);
+		/*SqlSession session = null;
+		try{
+			session = MybatisUtil.createSession();
+			session.insert(User.class.getName()+".add", u);
+			session.commit();
+		} catch(Exception e){
+			e.printStackTrace();
+			session.rollback();
+		}finally{
+			MybatisUtil.closeSession(session);
+		}*/
+	}
+
+	@Override
+	public void update(User u) {
+		/*SqlSession session = null;
+		try{
+			session = MybatisUtil.createSession();
+			session.update(User.class.getName()+".update", u);
+			session.commit();
+		} catch(Exception e){
+			e.printStackTrace();
+			session.rollback();
+		}finally{
+			MybatisUtil.closeSession(session);
+		}*/
+		super.update(u);
+	}
+
+	@Override
+	public void delete(int id) {
+		/*SqlSession session = null;
+		try{
+			session = MybatisUtil.createSession();
+			session.delete(User.class.getName()+".delete", id);
+			session.commit();
+		} catch(Exception e){
+			e.printStackTrace();
+			session.rollback();
+		}finally{
+			MybatisUtil.closeSession(session);
+		}*/
+		//TODO 需要先删除关联对象
+		super.delete(User.class, id);
+	}
+
+	@Override
+	public User loadByUsername(String username) {
+		SqlSession session = null;
+		User u = null;
+		try{
+			session = MybatisUtil.createSession();
+			u = (User)session.selectOne(User.class.getName()+".load_by_username", username);
+			
+		} catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			MybatisUtil.closeSession(session);
 		}
 		
 		return u;
 	}
 
+	@Override
+	public Pager<User> find(String name) {
+		Map<String,Object> params = new HashMap<String,Object>();
+		if(name!=null || name.equals("")) params.put("name", "%"+name+"%");
+		return super.find(User.class, params);
+	}
 }

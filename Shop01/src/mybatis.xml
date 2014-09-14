@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//En"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="db.properties"/>
+	<typeAliases>
+		<package name="com.hitpoint.shop.model"/>
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="${driverClassName}"/>
+				<property name="username" value="${user}"/>
+				<property name="password" value="${password}"/>
+				<property name="url" value="${url}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="com/hitpoint/shop/model/User.xml"/>
+		<!-- <mapper resource="com/hitpoint/shop/model/Address.xml"/> -->
+	</mappers>
+</configuration>
