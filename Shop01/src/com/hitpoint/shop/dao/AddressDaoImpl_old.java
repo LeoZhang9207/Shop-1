@@ -43,10 +43,10 @@ public class AddressDaoImpl_old implements IAddressDao {
 
 	}
 
-	@Override
-	public Address address() {
+	/*@Override
+	public Address load() {
 		return null;
-	}
+	}*/
 
 	@Override
 	public List<Address> list(int userId) {
@@ -84,6 +84,12 @@ public class AddressDaoImpl_old implements IAddressDao {
 			DBUtil.release(rs, stmt, conn);
 		}
 		return addresses;
+	}
+
+	@Override
+	public Address load(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.hitpoint.shop.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.hitpoint.shop.model.Address;
 import com.hitpoint.shop.model.ShopException;
@@ -37,7 +39,9 @@ public class AddressDaoImpl extends BaseDao<Address> implements IAddressDao {
 
 	@Override
 	public List<Address> list(int userId) {
-		return null;
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("userId", userId);
+		return super.list(Address.class, params);
 	}
 
 }

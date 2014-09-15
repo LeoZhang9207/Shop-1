@@ -26,9 +26,15 @@ public class TestAddressDao {
 
 	@Test
 	public void testUpdate() {
-		fail("Not yet implemented");
+		
 	}
-
+	
+	@Test
+	public void testload(){
+		Address add= addressDao.load(2);
+		System.out.println(add.getName()+","+add.getUser());
+	}
+	
 	@Test
 	public void testDelete() {
 		fail("Not yet implemented");
@@ -44,7 +50,6 @@ public class TestAddressDao {
 		List<Address> list = addressDao.list(1);
 		for(Address a:list){
 			System.out.println(a.getName());
-			System.out.println(a.getUser().getNickname());
 		}
 	}
 

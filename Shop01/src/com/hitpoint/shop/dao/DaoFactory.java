@@ -4,7 +4,7 @@ public class DaoFactory {
 
 	public static IAddressDao getAddressDao() {
 		
-		return new AddressDaoImpl_old();
+		return new AddressDaoImpl();
 	}
 	
 	public static IUserDao getUserDao(){

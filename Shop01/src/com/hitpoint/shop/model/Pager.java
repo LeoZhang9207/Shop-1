@@ -3,12 +3,12 @@ package com.hitpoint.shop.model;
 import java.util.List;
 
 public class Pager<E> {
-	private int pageIndex;//�ڼ�ҳ
-	private int pageSize;//ÿҳ��ʾ������
-	private int pageOffset;//�׷�ũҵ�Ŀ�ʼֵ
-	private int totalRecord;//�ܹ���������¼
-	private int totalPage;//�ܹ�����ҳ
-	private List<E> datas;//���þ�����ݵ��б�
+	private int pageIndex;
+	private int pageSize;
+	private int pageOffset;
+	private int totalRecord;
+	private int totalPage;
+	private List<E> datas;
 	public int getPageIndex() {
 		return pageIndex;
 	}

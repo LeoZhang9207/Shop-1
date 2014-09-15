@@ -8,39 +8,23 @@
 	</insert>
 	
 	<update id="update" parameterType="Address">
-		update t_address set nickname=#{nickname},password=#{password},type=#{type} where id=#{id}
+		update t_address set name=#{name},phone=#{phone},postcode=#{postcode} where id=#{id}
 	</update>
 	
 	<delete id="delete" parameterType="int">
-		delete from t_Address where id = #{id}
+		delete from t_address where id = #{id}
 	</delete>
 	
 	<select id="load" resultType="Address" parameterType="int">
-		select * from t_Address where id = #{id}
+		select * from t_address where id = #{id}
 	</select>
 	
-	<select id="load_by_username" parameterType="String" resultType="Address">
-		select * from t_Address where username = #{username}
+	<select id="load_by_name" parameterType="String" resultType="Address">
+		select * from t_address where name = #{name}
 	</select>
+	
 	<!--使用#{}会在字符串外面添加''，而使用${}则不会添加''  -->
-	<select id="find" resultType="Address" parameterType="Map">
-		select * from t_Address
-		<if test="name!=null">
-		where (username like #{name} or nickname like #{name})
-		</if> 
-		<if test="sort!=null">
-			order by ${sort} 
-			<if test="order!=null">${order}</if>
-			<!-- <choose>
-				<when test="order!=null">${order}</when>
-				<otherwise>asc</otherwise>
-			</choose> -->
-		</if>
-		limit #{pageOffset},#{pageSize}
-	</select>
-	
-	<select id="find_count" resultType="int" parameterType="map">
-		select count(*) from t_Address 
-		<if test="name!=null">where (username like #{name} or nickname like #{name})</if>
+	<select id="list" resultType="Address" parameterType="Map">
+		select * from t_address where user_id = #{userId}
 	</select>
 </mapper>

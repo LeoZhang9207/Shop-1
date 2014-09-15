@@ -19,6 +19,6 @@
 	</environments>
 	<mappers>
 		<mapper resource="com/hitpoint/shop/model/User.xml"/>
-		<!-- <mapper resource="com/hitpoint/shop/model/Address.xml"/> -->
+		<mapper resource="com/hitpoint/shop/model/Address.xml"/>
 	</mappers>
 </configuration>

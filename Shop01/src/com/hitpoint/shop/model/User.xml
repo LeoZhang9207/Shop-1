@@ -41,4 +41,7 @@
 		select count(*) from t_user 
 		<if test="name!=null">where (username like #{name} or nickname like #{name})</if>
 	</select>
+	
+	<select id="find_by_name"></select>
+	<select id="find_by_name_count"></select>
 </mapper>

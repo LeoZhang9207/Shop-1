@@ -69,22 +69,28 @@ public class BaseDao<T> {
 	}
 	
 	public List<T> list(Class<T> clz,Map<String,Object> params){
+		return this.list(clz.getName()+".list",params);
+	}
+	
+	public List<T> list(String sqlId,Map<String,Object> params){
 		List<T>	list = null;
 		SqlSession session = null;
 		try{
 			session = MybatisUtil.createSession();
-			list = session.selectList(clz.getName()+".list",params);
+			list = session.selectList(sqlId,params);
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
 			MybatisUtil.closeSession(session);
 		}
-			
-		
 		return list;
 	}
 	
 	public Pager<T> find(Class<T> clz,Map<String,Object> params){
+		return this.find(clz.getName()+".find", params);
+	}
+	
+	public Pager<T> find(String sqlId,Map<String,Object> params){
 		int pageSize = SystemContext.getPageSize();
 		int pageOffset = SystemContext.getPageOffSet();
 		String order = SystemContext.getOrder();
@@ -97,11 +103,11 @@ public class BaseDao<T> {
 			params.put("pageOffset",pageOffset);
 			params.put("order", order);
 			params.put("sort",sort);
-			List<T> datas = session.selectList(clz.getName()+".find",params);
+			List<T> datas = session.selectList(sqlId,params);
 			pages.setDatas(datas);
 			pages.setPageOffset(pageOffset);
 			pages.setPageSize(pageSize);
-			int totalRecord = session.selectOne(clz.getName()+".find_count",params);
+			int totalRecord = session.selectOne(sqlId+"_count",params);
 			pages.setTotalRecord(totalRecord);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -109,6 +115,6 @@ public class BaseDao<T> {
 			MybatisUtil.closeSession(session);
 		}
 		return pages;
-		
 	}
 }
+
